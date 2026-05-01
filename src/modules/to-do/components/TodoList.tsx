@@ -22,6 +22,8 @@ interface ToDoListProps {
   selectedCategoryId: number | null;
 }
 
+const ITEMS_PER_PAGE = 8;
+
 const ToDoList: React.FC<ToDoListProps> = ({ selectedCategoryId }) => {
   const { categories, todos, addTodo, toggleTodo, deleteTodo } = useTodoStore(
     useShallow((s) => ({
@@ -38,9 +40,11 @@ const ToDoList: React.FC<ToDoListProps> = ({ selectedCategoryId }) => {
   const [categoryId, setCategoryId] = useState<number | null>(
     selectedCategoryId,
   );
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setCategoryId(selectedCategoryId);
+    setCurrentPage(1);
   }, [selectedCategoryId]);
 
   const visibleTodos = useMemo(() => {
@@ -55,6 +59,17 @@ const ToDoList: React.FC<ToDoListProps> = ({ selectedCategoryId }) => {
     categories.forEach((category) => map.set(category.id, category.name));
     return map;
   }, [categories]);
+
+  const pageCount = Math.max(1, Math.ceil(visibleTodos.length / ITEMS_PER_PAGE));
+
+  useEffect(() => {
+    setCurrentPage((prevPage) => Math.min(prevPage, pageCount));
+  }, [pageCount]);
+
+  const paginatedTodos = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return visibleTodos.slice(start, start + ITEMS_PER_PAGE);
+  }, [currentPage, visibleTodos]);
 
   const handleAddTodo = () => {
     const trimmedTitle = title.trim();
@@ -148,7 +163,7 @@ const ToDoList: React.FC<ToDoListProps> = ({ selectedCategoryId }) => {
       </div>
 
       <IonList inset style={{ marginTop: 8 }}>
-        {visibleTodos.map((todo) => (
+        {paginatedTodos.map((todo) => (
           <IonItem key={todo.id}>
             <IonCheckbox
               slot="start"
@@ -191,6 +206,42 @@ const ToDoList: React.FC<ToDoListProps> = ({ selectedCategoryId }) => {
           </IonItem>
         ) : null}
       </IonList>
+
+      {visibleTodos.length > 0 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: 8,
+            gap: 8,
+          }}
+        >
+          <IonButton
+            fill="outline"
+            size="small"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+            data-testid="pagination-prev-button"
+          >
+            Previous
+          </IonButton>
+          <IonNote>
+            Page {currentPage} of {pageCount}
+          </IonNote>
+          <IonButton
+            fill="outline"
+            size="small"
+            disabled={currentPage === pageCount}
+            onClick={() =>
+              setCurrentPage((page) => Math.min(pageCount, page + 1))
+            }
+            data-testid="pagination-next-button"
+          >
+            Next
+          </IonButton>
+        </div>
+      ) : null}
     </div>
   );
 };
