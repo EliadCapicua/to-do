@@ -1,0 +1,8 @@
+{
+  "name": "ToDo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
+  "id": "6fafb846"
+}
