@@ -1,0 +1,108 @@
+#### TODO - Application README
+
+This is a simple to-do application built with React and TypeScript. It allows users to create, edit, and delete to-do items, as well as organize them into categories.
+
+### Features
+- Create, edit, and delete to-do items
+- Organize to-dos into categories
+- Mark to-dos as completed
+- Responsive design for mobile and desktop
+### Technologies Used
+- React
+- TypeScript
+- Jest and React Testing Library for testing
+### Getting Started
+1. Clone the repository:
+```bash
+git clone https://github.com/EliadCapicua/to-do.git to-do
+```
+2. Navigate to the project directory:
+```bash
+cd to-do
+```
+3. Install dependencies:
+```bash
+npm install
+```
+4. Start the development server:
+```bash
+ionic serve
+``` 
+5. Run tests:
+```bash
+npm run test.unit
+```
+
+### Project Structure
+- `src/`: Contains the source code for the application
+  - `components/`: Reusable UI components
+  - `modules/`: Feature-specific modules (e.g., to-do management)
+  - `App.tsx`: Main application component
+  - `index.tsx`: Entry point of the application
+- `public/`: Static assets and HTML template
+- `tsconfig.json`: TypeScript configuration file
+- `package.json`: Project metadata and dependencies
+
+### Android and iOS
+To build and run the application on Android and iOS devices, follow these steps:
+1. Install Ionic CLI globally if you haven't already:
+```bash
+npm install -g @ionic/cli
+```
+2. Add the desired platforms:
+```bash
+ionic capacitor add android
+ionic capacitor add ios
+```
+3. Build the application:
+```bash
+ionic build
+```
+4. Sync the project with the native platforms:
+```bash
+ionic capacitor sync
+```
+5. Open the project in Android Studio or Xcode:
+```bash
+ionic capacitor open android
+ionic capacitor open ios
+```
+6. Run the application on an emulator or physical device from Android Studio or Xcode.
+
+### Firebase Remote Config
+Firebase Remote Config is integrated in the app and read in the Home screen.
+
+Remote keys currently used:
+- `home_title`
+- `home_cta_text`
+
+For web usage (optional), create a `.env` file with your Firebase Web App config:
+
+```bash
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+```
+
+Notes:
+- Android uses `android/app/google-services.json`.
+- iOS uses `ios/App/App/GoogleService-Info.plist`.
+- If the web env vars are missing, the app falls back to local defaults.
+
+### Remote Config (Firebase)
+This application uses Firebase Remote Config to manage feature flags and configuration settings. To set up Firebase Remote Config, follow these steps:
+1. Create a Firebase project in the [Firebase Console](https://console.firebase.google.com/).
+2. Add an Android and/or iOS app to your Firebase project and follow the instructions to download the `google-services.json` (for Android) and `GoogleService-Info.plist` (for iOS) files.
+3. Place the `google-services.json` file in the `android/app/` directory and the `GoogleService-Info.plist` file in the `ios/App/App/` directory.
+4. Configure Remote Config parameters in the Firebase Console and use them in your application to enable or disable features based on the configuration.
+
+
+### Contributing
+Contributions are welcome! Please fork the repository and create a pull request with your changes. Make sure to follow the existing code style and include tests for any new features or bug fixes.
+
+### License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
